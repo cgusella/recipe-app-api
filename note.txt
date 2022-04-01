@@ -1,0 +1,7 @@
+When a docker file is created, this need to be name starting with a capital D and without any extension.
+
+The command 'MKDIR /app' create a folder in the image, and the command 'COPY ./app /app'
+copies the contenets of the ./app, folder in the local machine, to the /app folder in the image.
+
+The -D in Dockerfile[10] means that user is going to be used in running applications only.
+This is done for security reasons.
