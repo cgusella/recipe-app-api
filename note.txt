@@ -5,3 +5,6 @@ copies the contenets of the ./app, folder in the local machine, to the /app fold
 
 The -D in Dockerfile[10] means that user is going to be used in running applications only.
 This is done for security reasons.
+
+Docke-compose[9]:  'volume' allows you to transfer in real time changes made in the docker folder directly in the
+docker image. You don't need to restart the docker to see the changes.
