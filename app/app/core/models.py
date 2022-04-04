@@ -12,7 +12,12 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         # it means that we do not have to add them in there.
         """Create and save a new user"""
 
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+
+        # With BaseUserManager comes the normalize_email
+        # method. This makes the email in a naturally way
+        # case insensitive.
+
         user.set_password(password)
         user.save()
         return user
