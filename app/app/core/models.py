@@ -11,7 +11,8 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         # because every time we add a new fields to our user
         # it means that we do not have to add them in there.
         """Create and save a new user"""
-
+        if not email:
+            raise ValueError('Users must have an email address')
         user = self.model(email=self.normalize_email(email), **extra_fields)
 
         # With BaseUserManager comes the normalize_email
@@ -19,6 +20,14 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         # case insensitive.
 
         user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password):
+        """Creates and saves a new superuser"""
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
         user.save()
         return user
 
