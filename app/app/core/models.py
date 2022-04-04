@@ -29,6 +29,8 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         user.is_staff = True
         user.is_superuser = True
         user.save()
+        # The lecturer puth in save 'self.__db' as parameer, but this
+        # gives me some problems so I deleted it.
         return user
 
 
