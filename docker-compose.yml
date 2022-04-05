@@ -9,12 +9,14 @@ services:
     volumes:
       - ./app:/app
     command: >
-      sh -c "python3 manage.py runserver 0.0.0.0:8000"
+      sh -c "python3 manage.py wait_for_db &&
+             python3 manage.py migrate &&
+             python3 manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=app
-      - DB_USER=postgres
-      - DB_PASSWORD=supersuperpassword
+      - DB_USER=iamuser
+      - DB_PASSWORD=password
     depends_on:
       - db
 
@@ -22,5 +24,5 @@ services:
     image: postgres:14.2-alpine
     environment:
       - POSTGRES_DB=app
-      - POSTGRES_USER=postgres
-      - POSTGRESS_PASSWORD=supersuperpassword
+      - POSTGRES_USER=iamuser
+      - POSTGRES_PASSWORD=password
