@@ -11,6 +11,9 @@ CREATE_USER_URL = reverse('user:create')
 # It is a common sense that parameters which are supposed to be constant
 # are written all in upper case. This is just a convention, python does
 # not earn anything from that.
+TOKEN_URL = reverse('user:token')
+# These are the URLs that we will use to make our
+# HTTP POST request.
 
 
 def create_user(**params):
@@ -74,3 +77,44 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exist)
+
+    def test_create_token_for_user(self):
+        """Test that a token is created for the user"""
+        payload = {
+            'email': 'test@prova.com',
+            'password': 'testpass',
+        }
+        create_user(**payload)
+        res = self.client.post(TOKEN_URL, payload)
+        self.assertIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_create_token_invalid_credential(self):
+        """Test that token is not created if invalid credentials are given"""
+        create_user(
+            email='test@prova.com',
+            password='testpass',
+        )
+        payload = {
+            'email': 'test@prova.com',
+            'password': 'wrongpass'
+        }
+        res = self.client.post(TOKEN_URL, payload)
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_no_user(self):
+        """Test that token is not created if user does not exist"""
+        payload = {
+            'email': 'test@prova.com',
+            'password': 'testpass'
+        }
+        res = self.client.post(TOKEN_URL, payload)
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_cretae_token_missing_field(self):
+        """Test that email and password are required"""
+        res = self.client.post(TOKEN_URL, {'email': 'one', 'password': ''})
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
