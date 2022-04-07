@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         user = self.model(email=self.normalize_email(email), **extra_fields)
 
         # With BaseUserManager comes the normalize_email
-        # method. This makes the email in a naturally way
+        # method. This makes the email in a natural way
         # case insensitive.
 
         user.set_password(password)
