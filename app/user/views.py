@@ -13,7 +13,7 @@ class CreateUserView(generics.CreateAPIView):
     # Or: do not write
     #   serializer_class = UserSerializer()
     # or the compiler will give you the 'not callable error'.
-    # And it's right, as it is an instance written this way.
+    # And it's right, as it is an instance written in this way.
     serializer_class = UserSerializer
 
 

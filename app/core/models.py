@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):  # let's extend the Base User Manager
@@ -48,3 +49,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # After that, we add in app/settings.py the line
     # AUTH_USER_MODEL = 'core.User'
+
+
+class Tag(models.Model):
+    """Tag to be used for a recipe"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

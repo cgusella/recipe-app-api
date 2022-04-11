@@ -27,4 +27,5 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
-admin.site.register(models.User, UserAdmin)
+admin.site.register(models.User, UserAdmin)  # register(models, referred_admin)
+admin.site.register(models.Tag)  # here we use the default admin
