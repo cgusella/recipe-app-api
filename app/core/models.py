@@ -21,7 +21,7 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         # case insensitive.
 
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
 
     def create_superuser(self, email, password):
@@ -29,9 +29,7 @@ class UserManager(BaseUserManager):  # let's extend the Base User Manager
         user = self.create_user(email, password)
         user.is_staff = True
         user.is_superuser = True
-        user.save()
-        # The lecturer puth in save 'self.__db' as parameer, but this
-        # gives me some problems so I deleted it.
+        user.save(using=self._db)
         return user
 
 
@@ -53,6 +51,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Tag(models.Model):
     """Tag to be used for a recipe"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Ingredient(models.Model):
+    """Ingredeint to be used in a recipe"""
     name = models.CharField(max_length=255)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)

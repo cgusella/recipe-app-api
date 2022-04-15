@@ -48,7 +48,7 @@ class PublicUserApiTests(TestCase):
         # 201 is the code referred to a succesfull created resource.
         user = get_user_model().objects.get(**res.data)
         self.assertTrue(user.check_password(payload['password']))
-        # self.assertIn('password', res.data)
+        self.assertNotIn('password', res.data)
         # Using functions as check_password, or what we write on assertIn
         # method allows you to check password without visualizing anythong,
         # even the encrypted version of the password.
