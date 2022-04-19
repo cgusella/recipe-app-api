@@ -30,3 +30,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(models.User, UserAdmin)  # register(models, referred_admin)
 admin.site.register(models.Tag)  # here we use the default admin
 admin.site.register(models.Ingredient)
+admin.site.register(models.Recipe)
