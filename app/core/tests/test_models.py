@@ -1,10 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-# get_user_model returns the model saved in settings.AUTH_USER_MODEL.
-# To see the methods that can be used with the defined User class in
-# models.py see the model.User. They are inherited when the
-# AUTH_USER_MODEL is setted.
 from core import models
+from unittest.mock import patch
 
 
 def sample_user(email='test@prova.com', password='password'):
@@ -76,3 +73,13 @@ class ModelTests(TestCase):
             price=5.00
         )
         self.assertEqual(str(recipe), recipe.title)
+
+    @patch('uuid.uuid4')
+    def test_recipe_filename_uuid(self, mock_uuid):
+        """Test that image is saved in the correct location"""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.recipe_image_file_path(None, 'myimage.jpg')
+
+        exp_path = f'upload/recipe/{uuid}.jpg'
+        self.assertEqual(exp_path, file_path)

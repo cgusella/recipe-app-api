@@ -2,3 +2,4 @@ backports.zoneinfo>=0.2.1
 Django>=4.0.2
 psycopg2>=2.9.3
 djangorestframework>=3.13.1
+Pillow>=9.0
