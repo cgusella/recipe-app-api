@@ -80,7 +80,7 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_retrieve_ingredients_assigned_to_recipes(self):
-        """Test filtering tags by those assigned to recipes"""
+        """Test filtering ingredients by those assigned to recipes"""
         ingredient1 = Ingredient.objects.create(user=self.user, name='Apples')
         ingredient2 = Ingredient.objects.create(user=self.user, name='Chicken')
         recipe = Recipe.objects.create(
@@ -98,7 +98,7 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertNotIn(serializer2.data, res.data)
 
     def test_retrieve_ingredients_assigned_unique(self):
-        """Test filtering tags by assigned returned unique items"""
+        """Test filtering ingredients by assigned returned unique items"""
         ingredient = Ingredient.objects.create(user=self.user, name='Eggs')
         Ingredient.objects.create(user=self.user, name='Cheese')
         recipe1 = Recipe.objects.create(
